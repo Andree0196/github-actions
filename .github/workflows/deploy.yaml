@@ -10,7 +10,7 @@ jobs:
         run: echo "Hola mundo" 
 
   second-jobs:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/master' }}
     needs: first_jobs
     runs-on: ubuntu-latest
     steps:
