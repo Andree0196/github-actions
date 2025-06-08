@@ -18,7 +18,7 @@ jobs:
       - name: Obtener mensaje
         run: echo "${{ steps.step_1.outputs.my_variable }}"
       - name: Action
-        uses: action/checkout@v4
+        uses: actions/checkout@v4
         with:
           name: test
 
