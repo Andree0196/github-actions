@@ -46,7 +46,7 @@ jobs:
           path: test.log
 
   tercer-jobs:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
     needs: second-jobs
     steps:
       - name: Descargar artefacto
