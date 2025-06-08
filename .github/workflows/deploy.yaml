@@ -6,6 +6,8 @@ jobs:
   first_jobs:
     name: Tutorial CodigoFacilito Action
     runs-on: ubuntu-latest
+    outputs:
+      salida: ${{ steps.step_1.outputs.my_variable }}
     env:
       NAME: CodigoFacilito
     steps:
@@ -26,7 +28,31 @@ jobs:
     if: ${{ github.ref == 'refs/heads/master' }}
     needs: first_jobs
     runs-on: ubuntu-latest
+    env:
+      SALIDA: ${{ needs.first_job.outputs.salida }}
     steps:
       - name: Hola Mundo de nuevo
         if: true
-        run: echo "Hola mundo de nuevo ${{ github.ref }}"
+        run: echo "Hola mundo de nuevo ${{ github.ref }} y $SALIDA"
+
+      - name: Generar archivo
+        run: |
+          echo "Archivo de prueba" >> test.log
+
+      - name: Subir artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: archivo-test
+          path: test.log
+
+  tercer-jobs:
+    runs_on: ubuntu-latest
+    needs: second-jobs
+    steps:
+      - name: Descargar artefacto
+        uses: actions/download-artifact@v4
+        with:
+          name: archivo-test
+
+      - name: Cat file
+        run: cat test.log
